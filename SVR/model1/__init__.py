@@ -1,11 +1,73 @@
 import pandas as pd
 import numpy as np
-from datetime import datetime
 import plotly.express as px
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 from sklearn.svm import SVR
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_absolute_error, mean_squared_error, mean_absolute_percentage_error
 
+
+def valid_vac(dados):
+    X = dados['Dias'].values.reshape(-1, 1)
+    y = dados['Vacina'].values #.reshape(-1, 1)          
+    
+    # Separando os dados em Treino e Teste
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=21)
+    
+    regressor = SVR(kernel = 'rbf', C=10_000, gamma='scale', epsilon=1, coef0=0)
+    regressor.fit(X_train, y_train)
+    
+    y_pred = regressor.predict(X_test)
+    
+    for i in range(len(y_pred)):   
+        if y_pred[i] > 100:
+            y_pred[i] = 100
+        elif y_pred[i] < 0:
+            y_pred[i] = 0
+    
+    # Aplicando as métricas
+    mae = mean_absolute_error(y_test, y_pred)
+    rmse = mean_squared_error(y_test, y_pred, squared=False)
+    mape = mean_absolute_percentage_error(y_test, y_pred)
+    
+    # Retornando as métricas
+    print('MÉTRICAS:')
+    print(f'- MAE: {mae:.4f}')
+    print(f'- RMSE: {rmse:.4f}')
+    print(f'- MAPE: {mape:.4f}')
+    
+    
+def valid_uti(dados):
+    X = dados['Dias'].values.reshape(-1, 1)
+    y = dados['Taxa de Ocupação'].values #.reshape(-1, 1)        
+    
+    # Separando os dados em Treino e Teste
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=21)
+    
+    regressor = SVR(kernel = 'rbf', C=10_000, gamma='scale', epsilon=1, coef0=0)
+    regressor.fit(X_train, y_train)
+    
+    y_pred = regressor.predict(X_test)
+    
+    for i in range(len(y_pred)):   
+        if y_pred[i] > 100:
+            y_pred[i] = 100
+        elif y_pred[i] < 0:
+            y_pred[i] = 0
+    
+    # Aplicando as métricas
+    mae = mean_absolute_error(y_test, y_pred)
+    rmse = mean_squared_error(y_test, y_pred, squared=False)
+    mape = mean_absolute_percentage_error(y_test, y_pred)
+    
+    # Retornando as métricas
+    print('MÉTRICAS:')
+    print(f'- MAE: {mae:.4f}')
+    print(f'- RMSE: {rmse:.4f}')
+    print(f'- MAPE: {mape:.4f}')
+
+    
 
 def predict_vac(dados, title):
     # Setando parâmetros para o modelo
@@ -104,7 +166,7 @@ def predict_uti(dados, title):
         
     # Selecionado variáveis
     X = dados['Dias'].values.reshape(-1, 1)
-    y = dados['TaxaOcup'].values #.reshape(-1, 1)   
+    y = dados['Taxa de Ocupação'].values #.reshape(-1, 1)   
     z = dados.iloc[:, 0].values.reshape(-1, 1)
 
     # Último dia da lista
@@ -151,7 +213,7 @@ def predict_uti(dados, title):
             yyy_svr[i] = 0
 
     # Create a scatter plot
-    fig = px.scatter(dados, x=dados['Dias'], y=dados['TaxaOcup'], 
+    fig = px.scatter(dados, x=dados['Dias'], y=dados['Taxa de Ocupação'], 
                      opacity=0.8, color_discrete_sequence=['black'])
 
     # Add a best-fit line
