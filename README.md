@@ -1,24 +1,24 @@
 # Predicting ICU bed occupancy rate by COVID-19 in Brazil and Regions using SVR based on vaccination.
 
-This study sought to apply the SVR technique to predict the ICU bed occupancy rate by COVID-19 in Brazil for 7, 14, 21 and 28 days after May 10, 2021. See the document [here](https://www.even3.com.br/anais/cobicet/374955-predicao-da-taxa-de-ocupacao-de-leitos-de-uti-por-covid-19-no-brasil-usando-svr/).
+This study sought to apply the SVR technique to predict the ICU bed occupancy rate by COVID-19 in Brazil for 7, 14, 21 and 28 days after July 19, 2021. See the document [here](https://jhi.sbis.org.br/index.php/jhi-sbis/article/view/919/508).
 
 ## Data
 
 - Data Source:  https://bigdata-covid19.icict.fiocruz.br/
 
-- Number of instances:  27 instances
+- Number of instances:  37 instances
 
-- Date of last instance:  10/05/2021 (day / month / year)
+- Date of last instance:  19/07/2021 (day / month / year)
 
 - Final data:
 
-  ![Figure](https://github.com/Vinicius999/ICU-beds-forecast-covid-19/blob/main/images/dataset-image.png)
+  ![Figure](https://github.com/Vinicius999/ICU-beds-forecast-covid-19-Brazil/blob/main/images/dataset-image.png)
 
 ## Methodology
 - Training data:  85%
 - Validation data:  15%
-- Metric:  MAE (Mean Absolute Error)
-- No. of training and validation tests:  10
+- Metrics:  MAE (Mean Absolute Error) and RMSE (Root Mean Squared Error)
+- No. of training and validation tests:  5 tests using Grid Search
 - Prediction time intervals:  7, 14, 21 and 28 days after the last collection date
 
 ## Results
